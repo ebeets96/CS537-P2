@@ -1,3 +1,5 @@
+#include "queue.h"
+
 Queue *CreateStringQueue(int size) {
 
 }
@@ -11,5 +13,5 @@ char* DequeueString(Queue *q) {
 }
 
 void PrintQueueStats(Queue *q) {
-	
+
 }

@@ -1,4 +1,6 @@
-struct Queue;
+typedef struct {
+
+} Queue;
 
 Queue *CreateStringQueue(int size);
 void EnqueueString(Queue *q, char *string);
