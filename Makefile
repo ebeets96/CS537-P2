@@ -5,9 +5,10 @@
 CC=gcc
 FLAGS= -Wall -Wextra
 OUTPUT = prodcomm
+SCAN_BUILD_DIR = scan-build-out
 
 $(OUTPUT): prodcomm.o queue.o reader.o munch1.o munch2.o writer.o
-	$(CC) $(FLAGS) -lpthread -o $@ $^
+	$(CC) $(FLAGS) -o $@ $^ -lpthread
 
 prodcomm.o: prodcomm.h prodcomm.c
 	$(CC) $(FLAGS) -c $^
@@ -32,3 +33,15 @@ clean:
 
 test:
 	./$(OUTPUT)
+
+#
+# Run the Clang Static Analyzer
+#
+scan-build: clean
+	scan-build -o $(SCAN_BUILD_DIR) make
+
+#
+# View the one scan available using firefox
+#
+scan-view: scan-build
+	firefox -new-window $(SCAN_BUILD_DIR)/*/index.html

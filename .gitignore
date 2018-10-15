@@ -1,5 +1,6 @@
 # Project Specific EXE #
-537ps
+prodcomm
+scan-build-out/
 
 # OS generated files #
 ######################

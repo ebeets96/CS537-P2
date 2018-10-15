@@ -1,5 +1,17 @@
-typedef struct {
+#include <semaphore.h>
 
+typedef struct {
+	int front_index;
+	int count;
+	int enqueueCount;
+	int dequeueCount;
+	int enqueueBlockCount;
+	int dequeueBlockCount;
+	char** strings;
+
+	sem_t *mutex;
+	sem_t *full;
+	sem_t *empty;
 } Queue;
 
 Queue *CreateStringQueue(int size);
