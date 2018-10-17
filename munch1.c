@@ -8,7 +8,7 @@ void munch1(Queue* input, Queue* output) {
 	char* string = DequeueString(input);
 	while(string != NULL) {
 		char* nextOccurence = index(string, ' ');
-		while(nextOccurence != NULL)
+		while(nextOccurence != NULL) {
 			*nextOccurence = '*';
 			nextOccurence = index(string, ' ');
 		}
