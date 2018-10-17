@@ -7,5 +7,6 @@ void writer (Queue* input) {
 	char* string = DequeueString(input);
 	while(string != NULL) {
 		printf("%s\n", string);
+		string = DequeueString(input);
 	}
 }
