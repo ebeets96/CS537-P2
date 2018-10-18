@@ -16,4 +16,5 @@ void munch2(Queue* input, Queue* output) {
 		string = DequeueString(input);
 		curr = string;
 	}
+	EnqueueString(output, string);
 }

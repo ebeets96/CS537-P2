@@ -22,4 +22,5 @@ void read(Queue* q) {
 		}
 	}
 	free(str);
+	EnqueueString(q, NULL);
 }
