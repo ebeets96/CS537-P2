@@ -29,7 +29,7 @@ writer.o: writer.h writer.c
 	$(CC) $(FLAGS) -c $^
 
 clean:
-	rm -f $(OUTPUT) *.o
+	rm -f $(OUTPUT) *.o *.gch
 
 test:
 	./$(OUTPUT)
