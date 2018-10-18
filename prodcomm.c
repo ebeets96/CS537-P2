@@ -6,6 +6,7 @@
 #include "queue.h"
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 struct twoArgs {
 	Queue* arg1;
@@ -35,26 +36,30 @@ void* writerFunc(void* arg) {
 }
 
 int main() {
-	Queue* q1 = malloc(sizeof(Queue));
+	Queue* q1 = CreateStringQueue(5);
 	if (q1 == NULL) {
 		// Did not work
 	}
 	
-	Queue* q2 = malloc(sizeof(Queue));
+	Queue* q2 = CreateStringQueue(5);
 	if (q2 == NULL) {
 		// Did not work
 	}
 	
-	Queue* q3 = malloc(sizeof(Queue));
+	Queue* q3 = CreateStringQueue(5);
 	if (q3 == NULL) {
 		// Did not work
 	}
 
 	pthread_t reader, munch1, munch2, writer;
 
+	printf("Here 1\n");
+
 	if (pthread_create(&reader, NULL, &readFunc, q1) != 0) {
 		// Did not work
 	}
+
+	printf("Here 2\n");
 
 	struct twoArgs munch1Args;
 	munch1Args.arg1 = q1;
@@ -64,17 +69,23 @@ int main() {
 	       // Did not work
 	}
 
+	printf("Here 3\n");
+
 	struct twoArgs munch2Args;
 	munch2Args.arg1 = q2;
 	munch2Args.arg2 = q3;
 
 	if (pthread_create(&munch2, NULL, &munch2Func, &munch2Args) != 0) {
 		// Did not work
-	}	
+	}
+
+	printf("Here 4\n");	
 
 	if (pthread_create(&writer, NULL, &writerFunc, q3) != 0) {
 		// Did not work
 	}
+
+	printf("Here 5\n");
 
 	if (pthread_join(reader, NULL) != 0) {
 		// Did not work

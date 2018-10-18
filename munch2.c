@@ -2,9 +2,13 @@
 #include <ctype.h>
 #include "queue.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void munch2(Queue* input, Queue* output) {
 	char* string = DequeueString(input);
+
+	printf("Munch1 Here 1\n");
+
 	char* curr = string;
 	while (string != NULL) {
 		while (*curr != '\0') {
