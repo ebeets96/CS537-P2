@@ -2,13 +2,18 @@
 #include <ctype.h>
 #include "queue.h"
 
-void munch2(Queue* q, char* str) {
-	char* ptr = str;
-	while (*ptr != NULL) {
-		if (*ptr.isLower()) {
-			*ptr = toupper((unsigned char) *ptr);
+void munch2(Queue* input, Queue* output) {
+	char* string = DequeueString(input);
+	char* curr = string;
+	while (string != NULL) {
+		while (*curr != NULL) {
+			if (*curr.isLower()) {
+				*curr = toupper((unsigned char) *curr);
+			}
+			curr++;
 		}
-		ptr++;
+		EnqueueString(output, string);
+		string = DequeueString(input);
+		curr = string;
 	}
-	EnqueueString(q, str);
 }
