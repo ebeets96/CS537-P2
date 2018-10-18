@@ -1,3 +1,6 @@
+#ifndef QUEUE_H_   /* Include guard */
+#define QUEUE_H_
+
 #include <semaphore.h>
 
 typedef struct {
@@ -18,3 +21,5 @@ Queue *CreateStringQueue(int size);
 void EnqueueString(Queue *q, char *string);
 char* DequeueString(Queue *q);
 void PrintQueueStats(Queue *q);
+
+#endif // QUEUE_H_
