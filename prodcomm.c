@@ -1,30 +1,40 @@
 #include "prodcomm.h"
 #include "reader.h"
+#include "munch1.h"
+#include "munch2.h"
+#include "writer.h"
 #include "queue.h"
 #include <pthread.h>
+#include <stdlib.h>
 
 struct twoArgs {
 	Queue* arg1;
 	Queue* arg2;
-}
+};
 
-void* readerFunc(void* arg) {
-	read(*arg);
+void* readFunc(void* arg) {
+	read(arg);
+	return NULL;
 }
 
 void* munch1Func(void* args) {
-	munch1(args->arg1, args->arg2);
+	struct twoArgs *arguments = (struct twoArgs *)args;
+	munch1(arguments->arg1, arguments->arg2);
+	return NULL;
 }
 
 void* munch2Func(void* args) {
-	munch2(args->arg1, args->arg2);
+	struct twoArgs *arguments = (struct twoArgs *)args;
+	munch2(arguments->arg1, arguments->arg2);
+	return NULL;
 }
 
 void* writerFunc(void* arg) {
-	write(*arg);
+	writer(arg);
+	return NULL;
 }
 
-int main(int argc, char** argv) {
+int main() {
 	Queue* q1 = malloc(sizeof(Queue));
 	if (q1 == NULL) {
 		// Did not work
@@ -42,7 +52,7 @@ int main(int argc, char** argv) {
 
 	pthread_t reader, munch1, munch2, writer;
 
-	if (pthread_create(&reader, NULL, &readerFunc, q1) != 0) {
+	if (pthread_create(&reader, NULL, &readFunc, q1) != 0) {
 		// Did not work
 	}
 
@@ -56,7 +66,7 @@ int main(int argc, char** argv) {
 
 	struct twoArgs munch2Args;
 	munch2Args.arg1 = q2;
-	munch@args.arg2 = q3;
+	munch2Args.arg2 = q3;
 
 	if (pthread_create(&munch2, NULL, &munch2Func, &munch2Args) != 0) {
 		// Did not work
@@ -66,16 +76,16 @@ int main(int argc, char** argv) {
 		// Did not work
 	}
 
-	if (pthread_join(reader) != 0) {
+	if (pthread_join(reader, NULL) != 0) {
 		// Did not work
 	}
-	if (pthread_join(munch1) != 0) {
+	if (pthread_join(munch1, NULL) != 0) {
 		// Did not work
 	}
-	if (pthread_join(munch2) != 0) {
+	if (pthread_join(munch2, NULL) != 0) {
 		// Did not work
 	}
-	if (pthread_join(writer) != 0) {
+	if (pthread_join(writer, NULL) != 0) {
 		// Did not work
 	}
 

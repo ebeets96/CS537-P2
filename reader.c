@@ -1,17 +1,20 @@
 #include "reader.h"
 #include <stdlib.h>
 #include "const.h"
+#include "queue.h"
+#include <stdio.h>
+#include <string.h>
 
 void read(Queue* q) {
 	char* str = calloc(BUFFER_SIZE, sizeof(char));
 	while (fgets(str, BUFFER_SIZE, stdin)) {
-		if (strchr(str, NULL) == NULL) {
+		if (strchr(str, '\0') == NULL) {
 			fprintf(stderr, "Input line length longer than buffer length\n");
 			// Flush to end of line
 			int endOfLineFound = 0;
 			while (!endOfLineFound) {
 				fgets(str, BUFFER_SIZE, stdin);
-				if (strchr(str, NULL) != NULL) {
+				if (strchr(str, '\0') != NULL) {
 					endOfLineFound = 1;
 				}
 			}

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "writer.h"
-#include "const.h"
 #include "queue.h"
 
 void writer (Queue* input) {

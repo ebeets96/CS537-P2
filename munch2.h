@@ -1,3 +1,3 @@
-#include "Queue.h"
+#include "queue.h"
 
-void munch2(Queue* q, char* str); 
+void munch2(Queue* input, Queue* output); 
