@@ -24,9 +24,10 @@ Queue *CreateStringQueue(int size) {
 	newQueue->mutex = malloc(sizeof(sem_t));
 	newQueue->full = malloc(sizeof(sem_t));
 	newQueue->empty = malloc(sizeof(sem_t));
+	newQueue->count_mutex = malloc(sizeof(sem_t));
 
 	if(newQueue->strings == NULL || newQueue->mutex == NULL ||
-			newQueue->full == NULL || newQueue->empty == NULL)
+			newQueue->full == NULL || newQueue->empty == NULL || newQueue->count_mutex == NULL)
 	{
 		fprintf(stderr, "Memory could not be allocated for the Queue.");
 		exit(EXIT_FAILURE);
@@ -35,10 +36,11 @@ Queue *CreateStringQueue(int size) {
 	int sem0_success = sem_init(newQueue->mutex, 0, 1);
 	int sem1_success = sem_init(newQueue->full, 0, 0);
 	int sem2_success = sem_init(newQueue->empty, 0, size);
+	int sem3_success = sem_init(newQueue->count_mutex, 0, 1);
 
 	//TODO check system call return values
 
-	if(sem0_success == -1 || sem1_success == -1 || sem2_success == -1) {
+	if(sem0_success == -1 || sem1_success == -1 || sem2_success == -1 || sem3_success == -1) {
 		fprintf(stderr, "Semaphores could not be initialized.");
 		exit(EXIT_FAILURE);
 	}
@@ -47,17 +49,21 @@ Queue *CreateStringQueue(int size) {
 }
 
 void EnqueueString(Queue *q, char *string) {
+	//Critical section for approximating number of semaphore blocks
+	sem_wait(q->count_mutex);
+	q->enqueueBlockCount += (q->count == q->size); //Adds one if they are equal and zero if space is available
+	sem_post(q->count_mutex);
+
+	//Wait until queue has an available space
 	sem_wait(q->empty);
-	int sem_error = (errno == EAGAIN);
 	sem_wait(q->mutex);
 	q->strings[q->end_index] = string;
 	q->end_index = (q->end_index + 1) % q->size;
 	q->count++;
 
 	//TODO modify stats
-	q->enqueueCount++;
-	if (sem_error){
-		q->enqueueBlockCount++;
+	if(string != NULL) {
+		q->enqueueCount++;
 	}
 
 	sem_post(q->mutex);
@@ -65,17 +71,21 @@ void EnqueueString(Queue *q, char *string) {
 }
 
 char* DequeueString(Queue *q) {
+	//Critical section for approximating number of semaphore blocks
+	sem_wait(q->count_mutex);
+	q->dequeueBlockCount += (q->count == 0); //Adds one if they are equal and zero if space is available
+	sem_post(q->count_mutex);
+
+	//Wait until queue has a string in the queue
 	sem_wait(q->full);
-	int sem_error = (errno == EAGAIN);
 	sem_wait(q->mutex);
 	char* string = q->strings[q->front_index];
 	q->count--;
 	q->front_index = (q->front_index + 1) % q->size;
 
 	//TODO modify stats
-	q->dequeueCount++;
-	if (sem_error){
-		q->dequeueBlockCount++;
+	if(string != NULL) {
+		q->dequeueCount++;
 	}
 
 	sem_post(q->mutex);

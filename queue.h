@@ -17,6 +17,7 @@ typedef struct {
 	sem_t *mutex;
 	sem_t *full;
 	sem_t *empty;
+	sem_t *count_mutex;
 } Queue;
 
 Queue *CreateStringQueue(int size);
