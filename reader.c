@@ -7,6 +7,12 @@
 
 void read(Queue* q) {
 	char* str = calloc(BUFFER_SIZE, sizeof(char));
+
+	if(str == NULL) {
+		fprintf(stderr, "Memory could not be allocated for the string.");
+		exit(EXIT_FAILURE);
+	}
+
 	while (fgets(str, BUFFER_SIZE, stdin)) {
 		int next_char = fgetc(stdin);
 		ungetc(next_char, stdin);
@@ -26,6 +32,10 @@ void read(Queue* q) {
 		else {
 			EnqueueString(q, str);
 			str = calloc(BUFFER_SIZE, sizeof(char));
+			if(str == NULL) {
+				fprintf(stderr, "Memory could not be allocated for the string.");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	free(str);

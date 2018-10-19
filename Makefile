@@ -10,7 +10,7 @@ SCAN_BUILD_DIR = scan-build-out
 $(OUTPUT): prodcomm.o queue.o reader.o munch1.o munch2.o writer.o const.o
 	$(CC) $(FLAGS) -o $@ $^ -lpthread
 
-prodcomm.o: prodcomm.h prodcomm.c
+prodcomm.o: prodcomm.c
 	$(CC) $(FLAGS) -c $^
 
 queue.o: queue.h queue.c
