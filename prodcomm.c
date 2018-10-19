@@ -40,12 +40,12 @@ int main() {
 	if (q1 == NULL) {
 		// Did not work
 	}
-	
+
 	Queue* q2 = CreateStringQueue(5);
 	if (q2 == NULL) {
 		// Did not work
 	}
-	
+
 	Queue* q3 = CreateStringQueue(5);
 	if (q3 == NULL) {
 		// Did not work
@@ -53,14 +53,9 @@ int main() {
 
 	pthread_t reader, munch1, munch2, writer;
 
-	printf("Here 1\n");
-
 	if (pthread_create(&reader, NULL, &readFunc, q1) != 0) {
 		// Did not work
 	}
-
-	printf("Here 2\n");
-
 	struct twoArgs munch1Args;
 	munch1Args.arg1 = q1;
 	munch1Args.arg2 = q2;
@@ -68,8 +63,6 @@ int main() {
 	if (pthread_create(&munch1, NULL, &munch1Func, &munch1Args) != 0) {
 	       // Did not work
 	}
-
-	printf("Here 3\n");
 
 	struct twoArgs munch2Args;
 	munch2Args.arg1 = q2;
@@ -79,13 +72,9 @@ int main() {
 		// Did not work
 	}
 
-	printf("Here 4\n");	
-
 	if (pthread_create(&writer, NULL, &writerFunc, q3) != 0) {
 		// Did not work
 	}
-
-	printf("Here 5\n");
 
 	if (pthread_join(reader, NULL) != 0) {
 		// Did not work
@@ -99,6 +88,15 @@ int main() {
 	if (pthread_join(writer, NULL) != 0) {
 		// Did not work
 	}
+
+	printf("---Queue 1 Stats---\n");
+	PrintQueueStats(q1);
+
+	printf("---Queue 2 Stats---\n");
+	PrintQueueStats(q2);
+
+	printf("---Queue 3 Stats---\n");
+	PrintQueueStats(q3);
 
 	free(q1);
 	free(q2);

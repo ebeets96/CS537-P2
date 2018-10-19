@@ -7,7 +7,7 @@ FLAGS= -Wall -Wextra
 OUTPUT = prodcomm
 SCAN_BUILD_DIR = scan-build-out
 
-$(OUTPUT): prodcomm.o queue.o reader.o munch1.o munch2.o writer.o
+$(OUTPUT): prodcomm.o queue.o reader.o munch1.o munch2.o writer.o const.o
 	$(CC) $(FLAGS) -o $@ $^ -lpthread
 
 prodcomm.o: prodcomm.h prodcomm.c
@@ -28,11 +28,14 @@ munch2.o: munch2.h munch2.c
 writer.o: writer.h writer.c
 	$(CC) $(FLAGS) -c $^
 
+const.o: const.h const.c
+	$(CC) $(FLAGS) -c $^
+
 clean:
 	rm -f $(OUTPUT) *.o *.gch
 
 test:
-	./$(OUTPUT)
+	./$(OUTPUT) < ~cs537-1/public/proj2/bigfile.txt
 
 #
 # Run the Clang Static Analyzer
