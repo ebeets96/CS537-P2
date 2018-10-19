@@ -7,14 +7,24 @@
 
 void read(Queue* q) {
 	char* str = calloc(BUFFER_SIZE, sizeof(char));
+
+	if(str == NULL) {
+		fprintf(stderr, "Memory could not be allocated for the string.");
+		exit(EXIT_FAILURE);
+	}
+
 	while (fgets(str, BUFFER_SIZE, stdin)) {
-		if (strchr(str, '\0') == NULL) {
+		int next_char = fgetc(stdin);
+		ungetc(next_char, stdin);
+		if (strchr(str, '\n') == NULL && next_char != EOF) {
 			fprintf(stderr, "Input line length longer than buffer length\n");
 			// Flush to end of line
 			int endOfLineFound = 0;
 			while (!endOfLineFound) {
 				fgets(str, BUFFER_SIZE, stdin);
-				if (strchr(str, '\0') != NULL) {
+
+				//If string contains null terminator, then the \n is found
+				if (strchr(str, '\n') == NULL) {
 					endOfLineFound = 1;
 				}
 			}
@@ -22,6 +32,10 @@ void read(Queue* q) {
 		else {
 			EnqueueString(q, str);
 			str = calloc(BUFFER_SIZE, sizeof(char));
+			if(str == NULL) {
+				fprintf(stderr, "Memory could not be allocated for the string.");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	free(str);

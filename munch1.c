@@ -12,8 +12,7 @@ void munch1(Queue* input, Queue* output) {
 			*nextOccurence = '*';
 			nextOccurence = index(string, ' ');
 		}
-
-
+		EnqueueString(output, string);
 		string = DequeueString(input);
 	}
 	EnqueueString(output, NULL);

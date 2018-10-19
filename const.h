@@ -1,7 +1,7 @@
 #ifndef CONST_H
 #define CONST_H
 
-const int QUEUE_SIZE = 5;
-const int BUFFER_SIZE = 1024;
+extern const int QUEUE_SIZE;
+extern const int BUFFER_SIZE;
 
 #endif

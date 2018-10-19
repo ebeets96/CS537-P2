@@ -4,7 +4,9 @@
 #include <semaphore.h>
 
 typedef struct {
+	int size;
 	int front_index;
+	int end_index;
 	int count;
 	int enqueueCount;
 	int dequeueCount;
