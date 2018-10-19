@@ -70,13 +70,13 @@ int main() {
 		exit(EXIT_FAILURE);
 	}
 
-	printf("---Queue 1 Stats---\n");
+	fprintf(stderr, "---Queue 1 Stats---\n");
 	PrintQueueStats(q1);
 
-	printf("---Queue 2 Stats---\n");
+	fprintf(stderr, "---Queue 2 Stats---\n");
 	PrintQueueStats(q2);
 
-	printf("---Queue 3 Stats---\n");
+	fprintf(stderr, "---Queue 3 Stats---\n");
 	PrintQueueStats(q3);
 
 	free(q1);

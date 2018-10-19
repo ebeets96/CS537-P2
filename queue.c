@@ -84,8 +84,8 @@ char* DequeueString(Queue *q) {
 }
 
 void PrintQueueStats(Queue *q) {
-	printf("Enqueue Count: %d\n", q->enqueueCount);
-	printf("Dequeue Count: %d\n", q->dequeueCount);
-	printf("Enqueue Block Count: %d\n", q->enqueueBlockCount);
-	printf("Dequeue Block Count: %d\n", q->dequeueBlockCount);
+	fprintf(stderr,"Enqueue Count: %d\n", q->enqueueCount);
+	fprintf(stderr,"Dequeue Count: %d\n", q->dequeueCount);
+	fprintf(stderr,"Enqueue Block Count: %d\n", q->enqueueBlockCount);
+	fprintf(stderr,"Dequeue Block Count: %d\n", q->dequeueBlockCount);
 }
