@@ -34,7 +34,7 @@ const.o: const.h const.c
 clean:
 	rm -f $(OUTPUT) *.o *.gch
 
-test:
+test: $(OUTPUT)
 	./$(OUTPUT) < ~cs537-1/public/proj2/bigfile.txt
 
 #
